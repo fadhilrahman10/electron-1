@@ -1,20 +1,73 @@
 <!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'"
-    />
-    <meta
-      http-equiv="content-security-policy"
-      content="default-src 'self'; script-src 'self'"
-    />
-    <title>Hello from Electron renderer!</title>
-  </head>
-  <body>
-    <h1>Hello from Electron renderer!</h1>
-    <p>👋</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Selfie App</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+      color: #333;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    video, img {
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      width: 100%;
+      max-width: 480px;
+      height: auto;
+    }
+
+    button {
+      margin-top: 16px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #388E3C;
+    }
+
+    #preview {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .status {
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ambil Selfie</h1>
+  <div class="status" id="status">📷 Menunggu kamera...</div>
+  <video id="video" autoplay playsinline style="transform: scaleX(-1);"></video>
+  <button id="snap">📸 Ambil Foto</button>
+  <canvas id="canvas" class="hidden"></canvas>
+  <img id="preview" />
+
+  <script src="renderer.js"></script>
+</body>
 </html>
