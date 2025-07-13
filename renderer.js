@@ -3,12 +3,41 @@ const canvas = document.getElementById('canvas');
 const status = document.getElementById('status');
 const previewGrid = document.getElementById('preview-grid');
 
+console.log('🟡 Meminta akses kamera...');
+
 navigator.mediaDevices.getUserMedia({ video: true })
   .then((stream) => {
+    console.log('🟢 Kamera berhasil diakses');
     video.srcObject = stream;
-    status.textContent = '✅ Kamera aktif';
+
+    const waitUntilReady = () => {
+      return new Promise((resolve, reject) => {
+        const maxWait = 3000; // 3 detik timeout
+        const started = Date.now();
+
+        function check() {
+          console.log('⏱ readyState:', video.readyState, 'size:', video.videoWidth, video.videoHeight);
+          if (video.readyState >= 2 && video.videoWidth > 0) {
+            resolve();
+          } else if (Date.now() - started > maxWait) {
+            reject(new Error('Video never became ready'));
+          } else {
+            requestAnimationFrame(check);
+          }
+        }
+
+        check();
+      });
+    };
+
+    return waitUntilReady().then(() => video.play());
+  })
+  .then(() => {
+    console.log('▶️ Video diputar');
+    document.getElementById('status').textContent = '✅ Kamera aktif';
   })
   .catch((err) => {
+    console.error('🔴 Kamera gagal:', err);
     status.textContent = '❌ Kamera gagal: ' + err.message;
   });
 

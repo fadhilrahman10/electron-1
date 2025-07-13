@@ -20,6 +20,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Restore Windows Certificate
+        run: |
+          echo "${{ secrets.WIN_CERT_BASE64 }}" | base64 -d > windows-cert.pfx
+        shell: bash
+
       - name: Run Electron Forge Make
         run: npm run make
 

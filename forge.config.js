@@ -4,8 +4,22 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 module.exports = {
   packagerConfig: {
     asar: true,
+    certificateFile: 'windows-cert.pfx',
+    certificatePassword: process.env.CSC_KEY_PASSWORD,
+    osxSign: {
+      identity: '', // kosong = ad-hoc signing
+      entitlements: 'entitlements.mac.plist',
+      'entitlements-inherit': 'entitlements.mac.plist',
+      hardenedRuntime: false
+    },
+    extraMetadata: {
+      sandbox: false,
+      nsCameraUsageDescription: "Aplikasi ini memerlukan akses kamera untuk selfie."
+    }
   },
-  rebuildConfig: {},
+  rebuildConfig: {
+    force: true
+  },
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
